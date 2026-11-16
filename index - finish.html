@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>燕赵人物镜像 · AI创作大赛交互作品</title>
+<style>
+.motto-bar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  padding:6px 0 14px;
+  color:var(--gold);
+  font-size:13px;
+  letter-spacing:.42em;
+  text-indent:.42em;
+  opacity:.9;
+}
+.motto-bar::before,
+.motto-bar::after{
+  content:"";
+  width:48px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.7;
+}
+  :root{
+    --bg:#0e1518;
+    --bg2:#142126;
+    --panel:#18262b;
+    --panel2:#1e3036;
+    --gold:#d9b46a;
+    --gold2:#f0d79a;
+    --red:#a83a32;
+    --red2:#c95448;
+    --cream:#f4ecdd;
+    --muted:#a9b8b8;
+    --line:rgba(217,180,106,.22);
+    --shadow:0 18px 50px rgba(0,0,0,.35);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Noto Serif SC","Songti SC","STSong","Microsoft YaHei",serif;
+    color:var(--cream);
+    background:
+      radial-gradient(circle at 12% 8%, rgba(217,180,106,.12), transparent 32%),
+      radial-gradient(circle at 88% 18%, rgba(168,58,50,.14), transparent 30%),
+      radial-gradient(circle at 50% 100%, rgba(217,180,106,.06), transparent 45%),
+      linear-gradient(160deg,#0b1113 0%,#101b1f 45%,#0d1518 100%);
+    min-height:100vh;
+    line-height:1.7;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.18;
+    background-image:
+      linear-gradient(rgba(217,180,106,.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(217,180,106,.08) 1px, transparent 1px);
+    background-size:46px 46px;
+    mask-image:radial-gradient(circle at center, black, transparent 78%);
+  }
+  a{color:var(--gold2);text-decoration:none}
+  button{font-family:inherit}
+#cursor-glow{
+  position:fixed;
+  left:0;
+  top:0;
+  width:420px;
+  height:420px;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:0;
+  background:radial-gradient(circle,rgba(217,180,106,.12),transparent 65%);
+  transform:translate(-50%,-50%);
+  opacity:0;
+  transition:opacity .3s ease;
+}
+  .app{position:relative;z-index:1;width:min(1120px,92vw);margin:0 auto;padding:28px 0 60px}
+.motto-bar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  padding:10px 0 18px;
+  color:var(--gold);
+  font-size:20px;
+  font-weight:600;
+  letter-spacing:.32em;
+  text-indent:.32em;
+  opacity:1;
+}
+.motto-bar::before,
+.motto-bar::after{
+  content:"";
+  width:48px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.7;
+}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0 20px;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .seal{
+    width:46px;height:46px;border-radius:12px;flex:0 0 auto;
+    display:grid;place-items:center;
+    color:#1a1110;font-weight:900;font-size:20px;
+    background:linear-gradient(145deg,var(--gold2),var(--gold));
+    box-shadow:0 8px 24px rgba(217,180,106,.22);
+  }
+  .brand-text{min-width:0}
+  .brand-text b{display:block;font-size:18px;letter-spacing:.08em;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand-text span{display:block;font-size:12px;color:var(--muted);letter-spacing:.16em}
+  .top-note{font-size:12px;color:var(--muted);text-align:right;line-height:1.5}
+  .hero{padding:42px 0 28px;text-align:center}
+  .hero .kicker{display:inline-block;font-size:12px;letter-spacing:.28em;color:var(--gold);border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(217,180,106,.06)}
+  .hero h1{margin:18px 0 12px;font-size:clamp(28px,4.4vw,48px);line-height:1.22;letter-spacing:.06em;color:var(--cream);text-shadow:0 8px 30px rgba(0,0,0,.35)}
+  .hero h1 em{font-style:normal;color:var(--gold2)}
+  .hero p{margin:0 auto;max-width:760px;color:var(--muted);font-size:15px}
+  .view[hidden]{display:none!important}
+  .panel{
+    background:linear-gradient(180deg,rgba(24,38,43,.96),rgba(20,33,38,.96));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:clamp(20px,3.2vw,38px);
+  }
+  .form-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+  .form-head h2{margin:0;font-size:22px;letter-spacing:.08em;color:var(--gold2)}
+  .form-head p{margin:6px 0 0;color:var(--muted);font-size:13px}
+  .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+  .form-group{min-width:0}
+  .form-group.full{grid-column:1/-1}
+  .label{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:14px;color:var(--cream);letter-spacing:.05em}
+  .label small{color:var(--muted);font-size:12px;letter-spacing:0}
+  .label::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(217,180,106,.1)}
+  select{
+    width:100%;appearance:none;
+    background:rgba(10,17,20,.72) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23d9b46a' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>") no-repeat right 14px center;
+    border:1px solid rgba(217,180,106,.28);
+    color:var(--cream);border-radius:12px;padding:12px 42px 12px 14px;font-size:14px;outline:none;
+  }
+  select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,180,106,.12)}
+  .radio-row{display:flex;gap:10px;flex-wrap:wrap}
+  .radio{
+    position:relative;display:inline-flex;align-items:center;cursor:pointer;
+    border:1px solid rgba(217,180,106,.22);border-radius:999px;padding:9px 16px;color:var(--muted);
+    background:rgba(10,17,20,.42);font-size:14px;transition:.18s;
+  }
+  .radio input{position:absolute;opacity:0;pointer-events:none}
+  .radio:has(input:checked){border-color:var(--gold);color:#1a1110;background:linear-gradient(145deg,var(--gold2),var(--gold));font-weight:700}
+  .traits{display:flex;flex-wrap:wrap;gap:10px}
+  .trait{position:relative;cursor:pointer;display:inline-flex}
+  .trait input{position:absolute;opacity:0;pointer-events:none}
+  .trait span{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:72px;padding:9px 14px;border-radius:999px;
+    border:1px solid rgba(217,180,106,.22);
+    background:rgba(10,17,20,.42);color:var(--muted);font-size:14px;transition:.18s;
+  }
+  .trait input:checked + span{
+    border-color:var(--gold);
+    color:#1a1110;
+    background:linear-gradient(145deg,var(--gold2),var(--gold));
+    font-weight:700;
+    box-shadow:0 6px 18px rgba(217,180,106,.16);
+  }
+  .form-message{min-height:22px;margin:12px 0 0;color:var(--red2);font-size:13px}
+  .actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    border:none;border-radius:12px;padding:13px 26px;cursor:pointer;
+    font-size:15px;letter-spacing:.08em;transition:.18s;
+    background:linear-gradient(145deg,var(--gold2),var(--gold));color:#1a1110;font-weight:800;
+    box-shadow:0 10px 26px rgba(217,180,106,.18);
+  }
+  .btn:hover{transform:translateY(-1px);box-shadow:0 14px 32px rgba(217,180,106,.26)}
+  .btn.ghost{
+    background:transparent;color:var(--gold2);border:1px solid rgba(217,180,106,.4);box-shadow:none;font-weight:600;
+  }
+  .btn.ghost:hover{background:rgba(217,180,106,.08)}
+  .btn.small{padding:9px 16px;font-size:13px;border-radius:10px}
+  .hint{font-size:12px;color:var(--muted)}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:26px 0}
+  .result-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+  .result-head h2{margin:0;font-size:24px;color:var(--gold2);letter-spacing:.08em}
+  .result-head p{margin:6px 0 0;color:var(--muted);font-size:13px}
+  .profile-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .chip{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:12px;color:var(--gold2);border:1px solid rgba(217,180,106,.24);
+    background:rgba(217,180,106,.06);padding:5px 10px;border-radius:999px;
+  }
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.cards.has-easter-egg{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:900px){.cards.has-easter-egg{grid-template-columns:1fr 1fr}}
+@media (max-width:680px){.cards.has-easter-egg{grid-template-columns:1fr}}
+  .person-card{
+    position:relative;display:flex;flex-direction:column;gap:14px;
+    background:linear-gradient(180deg,rgba(30,48,54,.92),rgba(20,33,38,.96));
+    border:1px solid rgba(217,180,106,.18);border-radius:16px;padding:20px;
+    cursor:pointer;transition:.2s;overflow:hidden;min-height:100%;
+  }
+  .person-card::after{
+    content:"";position:absolute;inset:auto -30% -55% -30%;height:120px;
+    background:radial-gradient(circle,rgba(217,180,106,.16),transparent 70%);
+    pointer-events:none;
+  }
+  .person-card:hover{transform:translateY(-4px);border-color:rgba(217,180,106,.5);box-shadow:0 18px 40px rgba(0,0,0,.32)}
+  .card-top{display:flex;align-items:center;gap:14px}
+  .avatar{
+    width:58px;height:58px;border-radius:50%;flex:0 0 auto;
+    display:grid;place-items:center;font-size:24px;font-weight:900;color:#1a1110;
+    background:linear-gradient(145deg,var(--gold2),var(--gold));
+    box-shadow:0 8px 22px rgba(217,180,106,.2);
+  }
+  .card-name{min-width:0}
+  .card-name b{display:block;font-size:20px;letter-spacing:.06em;color:var(--cream)}
+  .card-name span{display:block;font-size:12px;color:var(--muted)}
+  .match-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .match-label{font-size:12px;color:var(--muted);letter-spacing:.08em}
+  .match-num{font-size:22px;font-weight:900;color:var(--gold2);font-family:Georgia,serif}
+  .bar{height:7px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--red2),var(--gold2))}
+  .reason{font-size:13px;color:var(--muted);min-height:42px}
+  .tags{display:flex;gap:6px;flex-wrap:wrap}
+  .tag{font-size:11px;color:var(--gold2);border:1px solid rgba(217,180,106,.2);padding:3px 8px;border-radius:999px;background:rgba(217,180,106,.05)}
+  .card-link{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;color:var(--gold2);border-top:1px solid rgba(217,180,106,.12);padding-top:12px}
+  .detail-layout{display:grid;grid-template-columns:300px 1fr;gap:26px;align-items:start}
+  .profile-side{position:sticky;top:20px}
+  .big-avatar{
+    width:100%;aspect-ratio:1/1;border-radius:18px;
+    display:grid;place-items:center;font-size:88px;font-weight:900;color:#1a1110;
+    background:
+      radial-gradient(circle at 30% 20%,rgba(255,255,255,.35),transparent 36%),
+      linear-gradient(145deg,var(--gold2),var(--gold) 55%,#b98c3e);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 18px 40px rgba(0,0,0,.3);
+    position:relative;overflow:hidden;
+  }
+  .big-avatar::after{
+    content:"AI 艺术化演绎";position:absolute;left:12px;bottom:10px;font-size:10px;letter-spacing:.1em;
+    color:rgba(26,17,16,.66);font-weight:700;
+  }
+  .side-info{margin-top:16px;display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--muted)}
+  .side-info div{display:flex;gap:8px;justify-content:space-between;border-bottom:1px dashed rgba(217,180,106,.14);padding-bottom:8px}
+  .side-info b{color:var(--cream);font-weight:600;text-align:right}
+  .detail-main h2{margin:0 0 4px;font-size:clamp(26px,3.4vw,38px);color:var(--gold2);letter-spacing:.08em}
+  .detail-main .sub{color:var(--muted);font-size:14px;margin-bottom:18px}
+  .section{margin:22px 0}
+  .section h3{margin:0 0 10px;font-size:16px;color:var(--gold2);letter-spacing:.08em;display:flex;align-items:center;gap:8px}
+  .section h3::before{content:"";width:18px;height:2px;background:var(--gold);display:inline-block}
+  .section p{margin:0;color:#d9e2df;font-size:15px}
+  .quote{
+    border-left:3px solid var(--gold);padding:14px 16px;background:rgba(217,180,106,.06);
+    border-radius:0 12px 12px 0;color:var(--cream);font-size:15px;
+  }
+  .reason-list{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+  .reason-list li{display:flex;gap:9px;font-size:14px;color:#d9e2df}
+  .reason-list li::before{content:"◆";color:var(--gold);font-size:10px;line-height:1.9}
+  .detail-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+  .footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+  .footer b{color:var(--gold2);font-weight:600}
+  .notice{
+    margin-top:18px;padding:12px 14px;border-radius:12px;border:1px dashed rgba(217,180,106,.24);
+    color:var(--muted);font-size:12px;background:rgba(217,180,106,.04);
+  }
+  @media (max-width:900px){
+    .cards{grid-template-columns:1fr 1fr}
+    .detail-layout{grid-template-columns:1fr}
+    .profile-side{position:static}
+    .big-avatar{max-width:280px;margin:0 auto}
+    .side-info{max-width:420px;margin-left:auto;margin-right:auto}
+  }
+  @media (max-width:680px){
+    .app{width:min(94vw,1120px);padding-top:18px}
+    .topbar{align-items:flex-start}
+    .top-note{display:none}
+    .hero{padding:30px 0 20px}
+    .form-grid{grid-template-columns:1fr}
+    .cards{grid-template-columns:1fr}
+    .panel{padding:18px}
+    .result-head{flex-direction:column}
+    .detail-actions .btn{flex:1}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+<div id="cursor-glow"></div>
+  <div class="motto-bar">
+    <span>怀天下，求真知</span>
+  </div>
+  <header class="topbar">
+    <div class="brand">
+<div class="seal">燕</div>
+      <div class="brand-text">
+        <b>燕赵人物镜像</b>
+        <span>AI · 燕赵文脉 · 交互叙事</span>
+      </div>
+    </div>
+    <div class="top-note">
+      新闻传播学院 广编2班 AI 创作大赛<br />
+      交互应用类 · 单文件静态网页
+    </div>
+  </header>
+
+  <section id="view-home" class="view">
+    <div class="hero">
+      <span class="kicker">科技赋能燕赵 · 创意点亮文脉</span>
+      <h1>输入你的画像，<br />遇见<em>同频的燕赵历史人物</em></h1>
+      <p>性别、性格、家乡、年龄——四个维度，生成属于你的“燕赵人物镜像”。本作品以规则匹配保证历史人物关联的可控性，以 AI 辅助人物标签、推荐文案与视觉表达，让燕赵文脉在轻量交互中被看见。</p>
+    </div>
+
+    <div class="panel">
+      <div class="form-head">
+        <div>
+          <h2>你的燕赵画像</h2>
+          <p>请选择以下信息，系统将为你匹配 3 位燕赵历史人物。</p>
+        </div>
+        <span class="hint">画像仅在本页面内存处理，不收集真实姓名与联系方式</span>
+      </div>
+
+      <form id="profile-form" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <div class="label">性别 <small>用于人物气质参照</small></div>
+            <div class="radio-row" id="gender-row">
+              <label class="radio"><input type="radio" name="gender" value="不限" checked /><span>不限</span></label>
+              <label class="radio"><input type="radio" name="gender" value="男" /><span>男</span></label>
+              <label class="radio"><input type="radio" name="gender" value="女" /><span>女</span></label>
+            </div>
+          </div>
+        <div class="form-group">
+          <div class="label">家乡 <small>河北地市 / 雄安</small></div>
+          <select id="home-select" name="home">
+            <option value="">请选择你的家乡</option>
+            <option value="石家庄">石家庄</option>
+            <option value="唐山">唐山</option>
+            <option value="秦皇岛">秦皇岛</option>
+            <option value="邯郸">邯郸</option>
+            <option value="邢台">邢台</option>
+            <option value="保定">保定</option>
+            <option value="张家口">张家口</option>
+            <option value="承德">承德</option>
+            <option value="沧州">沧州</option>
+            <option value="廊坊">廊坊</option>
+            <option value="衡水">衡水</option>
+            <option value="雄安">雄安</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <div class="label">性格 <small>可多选，至少选择 1 项</small></div>
+          <div class="traits" id="traits-row">
+            <label class="trait"><input type="checkbox" value="开拓" /><span>开拓</span></label>
+            <label class="trait"><input type="checkbox" value="坚毅" /><span>坚毅</span></label>
+            <label class="trait"><input type="checkbox" value="智谋" /><span>智谋</span></label>
+            <label class="trait"><input type="checkbox" value="文雅" /><span>文雅</span></label>
+            <label class="trait"><input type="checkbox" value="务实" /><span>务实</span></label>
+            <label class="trait"><input type="checkbox" value="刚正" /><span>刚正</span></label>
+            <label class="trait"><input type="checkbox" value="担当" /><span>担当</span></label>
+            <label class="trait"><input type="checkbox" value="探索" /><span>探索</span></label>
+            <label class="trait"><input type="checkbox" value="机智" /><span>机智</span></label>
+            <label class="trait"><input type="checkbox" value="仁厚" /><span>仁厚</span></label>
+          </div>
+        </div>
+
+        <div class="form-group full">
+          <div class="label">年龄阶段 <small>选择与你当前人生阶段相近的一项</small></div>
+          <div class="radio-row" id="age-row">
+            <label class="radio"><input type="radio" name="age" value="少年" /><span>少年</span></label>
+            <label class="radio"><input type="radio" name="age" value="青年" checked /><span>青年</span></label>
+            <label class="radio"><input type="radio" name="age" value="中年" /><span>中年</span></label>
+            <label class="radio"><input type="radio" name="age" value="中老年" /><span>中老年</span></label>
+          </div>
+        </div>
+      </div>
+
+      <p class="form-message" id="form-message"></p>
+
+      <div class="actions">
+        <button type="submit" class="btn">开始匹配 →</button>
+        <span class="hint">匹配逻辑：家乡关联 +3 · 性格交集 +2/项 · 年龄阶段 +1 · 性别同频＋4</span>
+      </div>
+    </form>
+
+    <div class="notice">
+      说明：本作品为 AI 辅助创作，用于参加新传AI大赛。人物籍贯与活动地以燕赵相关为准，人物形象与寄语为艺术化演绎，非历史复原；匹配结果用于文化传播与创意体验，不作为历史评价依据。
+    </div>
+  </div>
+</section>
+  <section id="view-result" class="view" hidden>
+    <div class="panel">
+      <div class="result-head">
+        <div>
+          <h2>你的燕赵人物镜像</h2>
+          <p id="result-summary">根据你的画像，为你匹配以下 3 位燕赵历史人物。</p>
+          <div class="profile-chips" id="profile-chips"></div>
+        </div>
+        <button type="button" class="btn ghost small" id="btn-rematch">重新输入画像</button>
+      </div>
+      <div class="cards" id="result-cards"></div>
+      <div class="notice">
+        点击人物卡片查看详情。匹配度由规则计算得出，用于呈现你与该人物在“家乡—性格—人生阶段—气质”上的关联强度。
+      </div>
+    </div>
+  </section>
+
+  <section id="view-detail" class="view" hidden>
+    <div class="panel">
+      <div id="detail-content"></div>
+      <div class="detail-actions">
+        <button type="button" class="btn ghost" id="btn-back-result">← 返回匹配结果</button>
+        <button type="button" class="btn ghost" id="btn-back-home">重新输入画像</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div><b>燕赵人物镜像</b> · 新闻传播学院 李家轩 AI 创作大赛交互应用类作品</div>
+    <div>AI 辅助标签梳理 / 文案润色 / 视觉生成 · 规则匹配保证可控性</div>
+  </footer>
+</div>
+
+<script>
+  /* =========================================================
+     燕赵人物知识库
+     说明：籍贯/活动地以燕赵相关为准；人物形象为艺术化演绎。
+     ========================================================= */
+  const PEOPLE = [
+    {
+      id: "zhaowulingwang",
+      name: "赵武灵王",
+      era: "战国 · 赵国",
+      origin: "赵国邯郸（今河北邯郸）",
+      home: "邯郸",
+      gender: "男",
+      age: "中年",
+      traits: ["开拓", "坚毅", "担当"],
+      elements: ["胡服骑射", "赵国改革", "邯郸古城"],
+      story: "赵武灵王推行“胡服骑射”，突破旧制，学习北方民族的服饰与骑射之长，推动赵国军力与国力提升。他的故事是燕赵大地改革精神与开放视野的重要文化符号。",
+      aiNote: "你与赵武灵王的同频，不在于复刻历史，而在于那种敢于打破常规、把想法变成行动的开拓气质。愿你在自己的领域里，也能完成一次属于你的“胡服骑射”。"
+    },
+    {
+      id: "lianpo",
+      name: "廉颇",
+      era: "战国 · 赵国",
+      origin: "赵国（今河北保定定州一带）",
+      home: "保定",
+      gender: "男",
+      age: "中老年",
+      traits: ["坚毅", "担当", "刚正"],
+      elements: ["将相和", "负荆请罪", "赵国名将"],
+      story: "廉颇是战国时期赵国名将，以勇毅善战著称。“负荆请罪”的故事让他与蔺相如的“将相和”成为顾全大局、知错能改的文化典范，体现了燕赵文化中刚直而重义的一面。",
+      aiNote: "你与廉颇的同频，是一种敢于担当、也敢于直面自己的坚毅。真正的力量不只是不退让，更是在关键时刻选择大局与和解。"
+    },
+    {
+      id: "linxiangru",
+      name: "蔺相如",
+      era: "战国 · 赵国",
+      origin: "赵国邯郸（今河北邯郸）",
+      home: "邯郸",
+      gender: "男",
+      age: "中年",
+      traits: ["智谋", "担当", "仁厚"],
+      elements: ["完璧归赵", "将相和", "渑池之会"],
+      story: "蔺相如以“完璧归赵”“渑池之会”展现智勇与担当，又以“将相和”体现宽厚与大局观。他的形象把智慧、勇气与仁厚融合在一起，是燕赵文化中“智而有义”的代表。",
+      aiNote: "你与蔺相如的同频，是智慧与分寸感的结合。你未必声张，却能在复杂局面中找到既守住原则、又成全大局的路径。"
+    },
+    {
+      id: "zuchongzhi",
+      name: "祖冲之",
+      era: "南朝 · 范阳遒县",
+      origin: "范阳遒县（今河北保定涞水）",
+      home: "保定",
+      gender: "男",
+      age: "中年",
+      traits: ["务实", "探索", "智谋"],
+      elements: ["圆周率", "大明历", "古代数学"],
+      story: "祖冲之将圆周率推算到小数点后七位，并编制《大明历》，在数学与天文历法领域取得杰出成就。他的求真精神，是燕赵文脉中务实探索传统的重要体现。",
+      aiNote: "你与祖冲之的同频，是那种愿意把问题算到底的务实与探索。世界很大，但真正改变世界的，往往是那些肯在细节里多走一步的人。"
+    },
+    {
+      id: "liudaoyuan",
+      name: "郦道元",
+      era: "北魏 · 范阳涿州",
+      origin: "范阳涿州（今河北保定涿州）",
+      home: "保定",
+      gender: "男",
+      age: "中年",
+      traits: ["探索", "务实", "文雅"],
+      elements: ["水经注", "地理考察", "山水文学"],
+      story: "郦道元以《水经注》系统记述河流水道与地理人文，兼具科学考察与文学表达。他把行走、观察与写作结合起来，让地理知识拥有了文学温度。",
+      aiNote: "你与郦道元的同频，是一种边走边看、边看边写的探索欲。你适合把见闻变成表达，让知识不止停留在纸面，而是带着山河的气息。"
+    },
+    {
+      id: "weizheng",
+      name: "魏征",
+      era: "唐 · 巨鹿下曲阳",
+      origin: "巨鹿下曲阳（今河北石家庄晋州）",
+      home: "石家庄",
+      gender: "男",
+      age: "中年",
+      traits: ["刚正", "担当", "智谋"],
+      elements: ["贞观之治", "谏臣", "以史为鉴"],
+      story: "魏征以直言进谏著称，辅佐唐太宗开创“贞观之治”。他强调“以史为鉴”，把刚正、担当与政治智慧结合在一起，成为中国传统谏臣文化的重要象征。",
+      aiNote: "你与魏征的同频，是那种愿意说真话、也懂得如何把真话说得有价值的刚正。你的力量不在于声音最大，而在于立场清楚、判断清醒。"
+    },
+  {
+    id: "guoshoujing",
+    name: "郭守敬",
+    era: "元 · 顺德府邢台",
+    origin: "顺德府邢台（今河北邢台）",
+    home: "邢台",
+    gender: "男",
+    age: "中年",
+    traits: ["务实", "探索", "智谋"],
+    elements: ["授时历", "天文观测", "水利工程"],
+    story: "郭守敬主持天文观测与历法修订，编制《授时历》，并参与水利工程。他以实测精神推动古代科技发展，是燕赵文化中务实创新传统的重要人物。",
+    aiNote: "你与郭守敬的同频，是把宏大目标拆成可测量步骤的务实。你不一定追求喧哗，但你会用一次次观测和修正，让事情真正向前。"
+  },
+  {
+    id: "dongzhongshu",
+    name: "董仲舒",
+    era: "西汉 · 广川",
+    origin: "广川（今河北衡水景县）",
+    home: "衡水",
+    gender: "男",
+    age: "中年",
+    traits: ["文雅", "智谋", "仁厚"],
+    elements: ["天人三策", "儒学传承", "汉代思想"],
+    story: "董仲舒是汉代重要思想家和教育家，以“天人三策”回应时代命题，推动儒学在国家治理与教育体系中的传播。他的思想表达兼具文雅、思辨与秩序感。",
+    aiNote: "你与董仲舒的同频，是善于把复杂问题讲清楚的能力。你重视知识的秩序，也重视表达的分寸，适合在思想与传播之间搭建桥梁。"
+  },
+  {
+    id: "guanhanqing",
+    name: "关汉卿",
+    era: "元 · 祁州伍仁村",
+    origin: "祁州伍仁村（今河北保定安国）",
+    home: "保定",
+    gender: "男",
+    age: "中年",
+    traits: ["文雅", "机智", "仁厚"],
+    elements: ["元曲", "窦娥冤", "市井叙事"],
+    story: "关汉卿是元杂剧代表作家，代表作《窦娥冤》以强烈的戏剧冲突关注普通人的命运。他的创作把文雅、机智与仁厚结合起来，让燕赵叙事拥有持久的民间温度。",
+    aiNote: "你与关汉卿的同频，是那种既能洞察人情、又能用故事说出来的表达力。你适合把观察变成叙事，让更多人通过你的表达看见他人的命运。"
+  },
+  {
+    id: "jixiaolan",
+    name: "纪晓岚",
+    era: "清 · 河间府献县",
+    origin: "河间府献县（今河北沧州献县）",
+    home: "沧州",
+    gender: "男",
+    age: "中老年",
+    traits: ["机智", "文雅", "刚正"],
+    elements: ["四库全书", "文献整理", "清代学术"],
+    story: "纪晓岚参与编纂《四库全书》，在文献整理与学术文化方面影响深远。民间叙事中的他机智幽默，而历史中的他更体现出文雅、严谨与判断力。",
+    aiNote: "你与纪晓岚的同频，是机智背后的知识底气。你善于在复杂信息中抓重点，也懂得用一点幽默化解沉重，让表达既有锋芒又有分寸。"
+  },
+  {
+    id: "lidazhao",
+    name: "李大钊",
+    era: "近代 · 直隶乐亭",
+    origin: "直隶乐亭（今河北唐山乐亭）",
+    home: "唐山",
+    gender: "男",
+    age: "青年",
+    traits: ["担当", "开拓", "刚正"],
+    elements: ["马克思主义传播", "革命精神", "青春书写"],
+    story: "李大钊是中国共产主义运动的先驱之一，积极传播马克思主义，投身民族解放事业。他的文字与行动体现了燕赵文化中担当、开拓与刚正的精神气质。",
+    aiNote: "你与李大钊的同频，是青年人的担当与开拓。你愿意为相信的事情付出行动，也愿意在时代里发出自己的声音。"
+  },
+  {
+    id: "zhangzhidong",
+    name: "张之洞",
+    era: "清 · 直隶南皮",
+    origin: "直隶南皮（今河北沧州南皮）",
+    home: "沧州",
+    gender: "男",
+    age: "中老年",
+    traits: ["务实", "开拓", "担当"],
+    elements: ["洋务运动", "近代教育", "实业兴国"],
+    story: "张之洞是晚清洋务派代表人物之一，推动近代工业、教育与实业发展。他的实践体现了在时代变局中务实开拓、以行动回应问题的担当。",
+    aiNote: "你与张之洞的同频，是面对变化时的务实与开拓。你不满足于空谈，更愿意把资源、方法和行动组织起来，推动事情落地。"
+  },
+{
+  id: "zhaoweihou",
+  name: "赵威后",
+  era: "战国 · 赵国",
+  origin: "赵国邯郸（今河北邯郸）",
+  home: "邯郸",
+  gender: "女",
+  age: "中老年",
+  traits: ["刚正", "智谋", "担当"],
+  elements: ["触龙说赵太后", "赵国政治", "母爱与大局"],
+  story: "赵威后是战国时期赵国太后。面对国家危机，她最终以大局为重，送长安君到齐国为质，换取援兵。她的故事体现了刚正、智谋与担当，也呈现了燕赵女性在政治抉择中的清醒与勇气。",
+  aiNote: "你与赵威后的同频，是在情感与大局之间做出清醒判断的能力。你并不缺少温度，只是更懂得在关键时刻把责任放在前面。"
+},
+{
+  id: "zhenmi",
+  name: "甄宓",
+  era: "三国 · 魏",
+  origin: "中山无极（今河北石家庄无极）",
+  home: "石家庄",
+  gender: "女",
+  age: "青年",
+  traits: ["文雅", "仁厚", "智谋"],
+  elements: ["中山甄氏", "建安文学", "洛神传说"],
+  story: "甄宓为中山无极人，三国时期女性人物。后世文学与民间叙事常将她与《洛神赋》相联系，形成丰富的文化想象。她的形象兼具文雅、仁厚与智慧，是燕赵女性文化叙事中具有文学光泽的一笔。",
+  aiNote: "你与甄宓的同频，是一种文雅而不失判断力的气质。你重视情感与分寸，也懂得在复杂关系中保持自己的清醒。"
+},
+{
+  id: "fengtaihou",
+  name: "冯太后",
+  era: "北魏 · 长乐信都",
+  origin: "长乐信都（今河北衡水冀州）",
+  home: "衡水",
+  gender: "女",
+  age: "中年",
+  traits: ["开拓", "智谋", "担当"],
+  elements: ["太和改制", "均田制", "民族融合"],
+  story: "冯太后是北魏时期重要政治人物，推动均田制、三长制等改革，促进北魏社会制度与民族融合。她的政治实践体现了开拓、智谋与担当，是燕赵女性历史人物中具有制度视野的代表。",
+  aiNote: "你与冯太后的同频，是把想法落成制度的开拓力。你不满足于临时应对，更愿意搭建规则，让改变持续发生。"
+},
+{
+  id: "rongguanxiu",
+  name: "戎冠秀",
+  era: "近现代 · 河北平山",
+  origin: "河北平山（今石家庄平山）",
+  home: "石家庄",
+  gender: "女",
+  age: "中老年",
+  traits: ["仁厚", "担当", "坚毅"],
+  elements: ["子弟兵的母亲", "拥军模范", "平山革命老区"],
+  story: "戎冠秀是河北平山人，抗日战争时期积极救护伤员、支援前线，被誉为“子弟兵的母亲”。她的故事体现了燕赵女性仁厚、担当与坚毅的精神品质。",
+  aiNote: "你与戎冠秀的同频，是那种把善意变成行动的仁厚。你不一定站在聚光灯下，却能在别人最需要的时候给出可靠的支撑。"
+},
+{
+  id: "muguiying",
+  name: "穆桂英",
+  era: "民间传说 · 杨家将",
+  origin: "传说活动于河北保定一带",
+  home: "保定",
+  gender: "女",
+  age: "青年",
+  traits: ["开拓", "坚毅", "智谋"],
+  elements: ["杨家将传说", "巾帼英雄", "民间叙事"],
+  story: "穆桂英是杨家将民间传说中的重要女性形象，以勇敢、机智与担当著称。该人物属于传说叙事，非严格历史人物；将其纳入人物库，旨在呈现燕赵民间文化中的巾帼英雄想象。",
+  aiNote: "你与穆桂英的同频，是敢于迎难而上的行动力。你可以在规则之内找到破局的方式，也能在团队中承担关键角色。"
+},
+{
+  id: "changxingongdeng",
+  name: "长信宫灯",
+  era: "西汉 · 满城汉墓",
+  origin: "河北博物院藏（保定满城出土）",
+  home: "石家庄",
+  gender: "女",
+  age: "青年",
+  traits: ["文雅", "务实", "仁厚"],
+  elements: ["长信宫灯", "汉代青铜器", "环保设计"],
+  story: "长信宫灯出土于河北满城汉墓，现藏河北博物院。宫女执灯、烟入袖中，兼具实用功能与艺术美感，被誉为汉代环保设计典范。本角色以文物为灵感进行拟人化演绎，非历史人物复原。",
+  aiNote: "你与长信宫灯的同频，是温润外表下的务实与体贴。你重视细节，也愿意用不张扬的方式让事情更完整。",
+  type: "文物拟人"
+},
+{
+  id: "jinlvyuyi",
+  name: "金缕玉衣",
+  era: "西汉 · 满城汉墓",
+  origin: "河北博物院藏（保定满城出土）",
+  home: "石家庄",
+  gender: "未知",
+  age: "中年",
+  traits: ["坚毅", "探索", "担当"],
+  elements: ["金缕玉衣", "汉代葬玉", "考古发现"],
+  story: "金缕玉衣出土于河北满城汉墓，现藏河北博物院。以玉片与金丝编缀而成，体现汉代丧葬观念与工艺水平。本角色以文物为灵感进行拟人化演绎，非历史人物复原。",
+  aiNote: "你与金缕玉衣的同频，是守护与坚持的力量。你适合承担长期任务，也愿意为重要的事物保持耐心。",
+  type: "文物拟人"
+},
+{
+  id: "silongsifeng",
+  name: "四龙四凤铜方案",
+  era: "战国 · 中山国",
+  origin: "河北博物院藏（石家庄平山出土）",
+  home: "石家庄",
+  gender: "未知",
+  age: "中年",
+  traits: ["智谋", "文雅", "探索"],
+  elements: ["错金银四龙四凤铜方案", "中山国", "青铜纹饰"],
+  story: "错金银四龙四凤铜方案出土于战国中山国遗址，现藏河北博物院。器物结构精巧、纹饰繁复，体现中山国高超的青铜工艺与审美。本角色以文物为灵感进行拟人化演绎，非历史人物复原。",
+  aiNote: "你与四龙四凤铜方案的同频，是复杂结构中的秩序感。你善于在纷繁信息中找到规律，也重视表达的精确与美感。",
+  type: "文物拟人"
+},
+{
+  id: "tongpushou",
+  name: "龙凤纹铜铺首",
+  era: "战国 · 燕下都",
+  origin: "河北博物院藏（保定易县出土）",
+  home: "保定",
+  gender: "男",
+  age: "中年",
+  traits: ["坚毅", "担当", "刚正"],
+  elements: ["透雕龙凤纹铜铺首", "燕下都", "门饰文化"],
+  story: "透雕龙凤纹铜铺首出土于河北易县燕下都遗址，现藏河北博物院。铺首为门饰构件，兼具实用与礼制象征。本角色以文物为灵感进行拟人化演绎，非历史人物复原。",
+  aiNote: "你与铜铺首的同频，是守门人式的坚毅与担当。你不一定站在台前，却是让秩序成立的关键一环。",
+  type: "文物拟人"
+},
+{
+  id: "dingyaohaier",
+  name: "定窑孩儿枕",
+  era: "宋 · 定窑",
+  origin: "保定曲阳定窑",
+  home: "保定",
+  gender: "女",
+  age: "少年",
+  traits: ["文雅", "仁厚", "机智"],
+  elements: ["定窑白瓷", "孩儿枕", "宋代瓷器"],
+  story: "定窑孩儿枕是宋代定窑白瓷的代表性器物，以孩童伏卧为造型，温润可爱。定窑位于今河北曲阳，是燕赵非遗文化的重要组成。本角色以文物为灵感进行拟人化演绎，非历史人物复原。",
+  aiNote: "你与定窑孩儿枕的同频，是温润与灵动的结合。你重视亲和力，也懂得用轻松的方式化解复杂问题。",
+  type: "文物拟人"
+},
+{
+  id: "cizhoumeiping",
+  name: "磁州窑梅瓶",
+  era: "宋金 · 磁州窑",
+  origin: "邯郸磁县磁州窑",
+  home: "邯郸",
+  gender: "女",
+  age: "青年",
+  traits: ["文雅", "务实", "仁厚"],
+  elements: ["磁州窑", "白地黑花", "民间瓷艺"],
+  story: "磁州窑位于今河北邯郸磁县一带，以白地黑花装饰著称，富有民间生活气息。梅瓶为经典器型，兼具实用与审美。本角色以文物为灵感进行拟人化演绎，非历史人物复原。",
+  aiNote: "你与磁州窑梅瓶的同频，是朴素中的表达力。你善于把日常经验转化成有温度的作品，让文化回到生活。",
+  type: "文物拟人"
+},
+{
+  id: "tongyangzundeng",
+  name: "铜羊尊灯",
+  era: "西汉 · 满城汉墓",
+  origin: "河北博物院藏（保定满城出土）",
+  home: "石家庄",
+  gender: "未知",
+  age: "少年",
+  traits: ["仁厚", "文雅", "务实"],
+  elements: ["铜羊尊灯", "汉代灯具", "羊文化"],
+  story: "铜羊尊灯出土于河北满城汉墓，现藏河北博物院。以羊为造型，兼具照明功能与吉祥寓意，体现汉代工艺与生活美学。本角色以文物为灵感进行拟人化演绎，非历史人物复原。",
+  aiNote: "你与铜羊尊灯的同频，是温和而可靠的气质。你不追求喧哗，却能在日常中持续提供稳定的支持。",
+  type: "文物拟人"
+},
+{
+  id: "yanguodaobi",
+  name: "燕国刀币",
+  era: "战国 · 燕国",
+  origin: "保定易县燕下都一带",
+  home: "保定",
+  gender: "男",
+  age: "青年",
+  traits: ["开拓", "机智", "务实"],
+  elements: ["燕国刀币", "货币文化", "燕下都"],
+  story: "燕国刀币是战国时期燕国流通货币，形制似刀，体现燕地经济与商贸文化。本角色以文物为灵感进行拟人化演绎，非历史人物复原。",
+  aiNote: "你与燕国刀币的同频，是流动中的务实与机智。你适合在变化中寻找机会，也重视交易背后的信任。",
+  type: "文物拟人"
+},
+   {
+      id: "shixiaofan",
+      name: "狮小范",
+      era: "现代 · 河北师范大学",
+      origin: "河北师范大学校园",
+      home: "石家庄",
+      gender: "未知",
+      age: "现代",
+      traits: ["机智", "探索", "担当"],
+      elements: ["河北师范大学官方吉祥物", "校园神秘NPC", "随机刷新"],
+      story: "狮小范是河北师范大学官方吉祥物，也是校园内随机刷新的超级NPC。性别未知，性格神秘，行踪不定。据说除了可以踹几脚，无法进行其他交互。它不属于任何商业游戏IP，仅作为本次校园文化传播的彩蛋角色出现。",
+      aiNote: "你触发了隐藏彩蛋。狮小范不提供人生建议，只负责在你全选性格、身在石家庄、不限性别、正值少年时，突然出现在你的燕赵人物镜像里。踹一脚可以，别问太多。",
+      isEasterEgg: true
+    }
+];
+
+/* =========================================================
+   全局状态
+   ========================================================= */
+const state = {
+  profile: null,
+  results: []
+};
+
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+/* =========================================================
+   路由
+   ========================================================= */
+function parseHash() {
+  const raw = (location.hash || "#home").replace(/^#/, "");
+  const [viewPart, queryPart] = raw.split("?");
+  return {
+    view: viewPart || "home",
+    params: new URLSearchParams(queryPart || "")
+  };
+}
+
+function showView(viewName) {
+  ["home", "result", "detail"].forEach((name) => {
+    const el = document.getElementById("view-" + name);
+    if (el) el.hidden = name !== viewName;
+  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function route() {
+  const { view, params } = parseHash();
+
+  if (view === "detail") {
+    const id = params.get("id");
+    const person = PEOPLE.find((p) => p.id === id);
+    if (!person) {
+      location.hash = "#home";
+      return;
+    }
+    renderDetail(person);
+    showView("detail");
+    return;
+  }
+
+  if (view === "result") {
+    if (!state.profile || !state.results.length) {
+      location.hash = "#home";
+      return;
+    }
+    renderResult();
+    showView("result");
+    return;
+  }
+
+  renderHome();
+  showView("home");
+}
+
+window.addEventListener("hashchange", route);
+window.addEventListener("DOMContentLoaded", route);
+
+/* =========================================================
+   首页
+   ========================================================= */
+function renderHome() {
+  const msg = $("#form-message");
+  if (msg) msg.textContent = "";
+}
+
+function getSelectedTraits() {
+  return $$("#traits-row input[type=checkbox]:checked").map((el) => el.value);
+}
+
+function getSelectedRadio(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : "";
+}
+
+function collectProfile() {
+  return {
+    gender: getSelectedRadio("gender") || "不限",
+    home: $("#home-select").value,
+    traits: getSelectedTraits(),
+    age: getSelectedRadio("age") || "青年"
+  };
+}
+
+$("#profile-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+  const profile = collectProfile();
+  const msg = $("#form-message");
+
+  if (!profile.home) {
+    msg.textContent = "请选择你的家乡，家乡关联是匹配的重要维度。";
+    $("#home-select").focus();
+    return;
+  }
+  if (!profile.traits.length) {
+    msg.textContent = "请至少选择 1 项性格标签。";
+    return;
+  }
+
+  msg.textContent = "";
+  state.profile = profile;
+  state.results = matchPeople(profile);
+  location.hash = "#result";
+});
+
+$("#btn-rematch").addEventListener("click", () => {
+  location.hash = "#home";
+});
+
+$("#btn-back-home").addEventListener("click", () => {
+  location.hash = "#home";
+});
+
+$("#btn-back-result").addEventListener("click", () => {
+  if (state.results.length) {
+    location.hash = "#result";
+  } else {
+    location.hash = "#home";
+  }
+});
+
+/* =========================================================
+   匹配算法
+   ========================================================= */
+function scorePerson(person, profile) {
+  let score = 0;
+  const reasons = [];
+
+  if (person.home === profile.home) {
+    score += 3;
+    reasons.push(`同乡之谊：你的家乡「${profile.home}」与${person.name}的燕赵足迹相连。`);
+  }
+
+  const intersection = person.traits.filter((t) => profile.traits.includes(t));
+  if (intersection.length) {
+    score += intersection.length * 2;
+    reasons.push(`性格同频：你们都带有「${intersection.join("、")}」的气质。`);
+  }
+
+  if (person.age === profile.age) {
+    score += 1;
+    reasons.push(`人生阶段相近：你们同处「${profile.age}」阶段，面对相似的人生课题。`);
+  }
+
+  if (profile.gender !== "不限" && person.gender === profile.gender) {
+    score += 4;
+    reasons.push("性别同频：你与人物在性别气质参照上更为接近。");
+  }
+
+  const maxScore = 3 + profile.traits.length * 2 + 1 + 4;
+  const percent = Math.max(1, Math.min(100, Math.round((score / maxScore) * 100)));
+
+  return { person, score, percent, reasons };
+}
+
+function matchPeople(profile) {
+  const ranked = PEOPLE
+    .filter((person) => !person.isEasterEgg)
+    .map((person) => scorePerson(person, profile))
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+
+      const aGender = profile.gender !== "不限" && a.person.gender === profile.gender ? 1 : 0;
+      const bGender = profile.gender !== "不限" && b.person.gender === profile.gender ? 1 : 0;
+      if (bGender !== aGender) return bGender - aGender;
+
+      if ((b.person.home === profile.home) !== (a.person.home === profile.home)) {
+        return b.person.home === profile.home ? 1 : -1;
+      }
+      return a.person.name.localeCompare(b.person.name, "zh-Hans-CN");
+    });
+
+  let top = ranked.slice(0, 3);
+
+  if (profile.gender !== "不限") {
+    const hasSameGender = top.some((item) => item.person.gender === profile.gender);
+    if (!hasSameGender) {
+      const bestSame = ranked.find((item) => item.person.gender === profile.gender);
+      if (bestSame) {
+        top[2] = bestSame;
+        top = Array.from(new Map(top.map((item) => [item.person.id, item])).values())
+          .sort((a, b) => b.score - a.score);
+      }
+    }
+  }
+
+  const allTraitsSelected = profile.traits.length >= 10;
+  const isEasterEgg =
+    allTraitsSelected &&
+    profile.home === "石家庄" &&
+    profile.gender === "不限" &&
+    profile.age === "少年";
+
+  if (isEasterEgg) {
+    const lion = PEOPLE.find((p) => p.id === "shixiaofan");
+    if (lion && !top.some((item) => item.person.id === "shixiaofan")) {
+      top = top.concat([
+        {
+          person: lion,
+          score: 0,
+          percent: 100,
+          reasons: ["彩蛋触发：性格全选 + 家乡石家庄 + 性别不限 + 年龄少年，你遇见了校园神秘NPC狮小范。"]
+        }
+      ]);
+    }
+  }
+
+  return top;
+}
+  /* =========================================================
+     结果页
+     ========================================================= */
+  function renderResult() {
+    const profile = state.profile;
+    const results = state.results;
+
+$("#result-summary").textContent =
+  `根据你的画像，为你匹配以下 ${results.length} 位燕赵历史人物。`;
+
+$("#result-cards").classList.toggle("has-easter-egg", results.length > 3);
+
+    $("#profile-chips").innerHTML = [
+      `性别：${profile.gender}`,
+      `家乡：${profile.home}`,
+      `年龄：${profile.age}`,
+      `性格：${profile.traits.join("、")}`
+    ].map((text) => `<span class="chip">${escapeHTML(text)}</span>`).join("");
+
+    $("#result-cards").innerHTML = results.map((item, index) => {
+      const p = item.person;
+      const reasonText = item.reasons.length
+        ? item.reasons[0]
+        : "你们之间有一种含蓄而可感知的燕赵文化关联。";
+      return `
+        <article class="person-card" data-id="${p.id}" tabindex="0" role="button" aria-label="查看${escapeHTML(p.name)}详情">
+          <div class="card-top">
+            <div class="avatar">${escapeHTML(p.name.slice(0, 1))}</div>
+            <div class="card-name">
+              <b>${escapeHTML(p.name)}</b>
+              <span>${escapeHTML(p.era)} · ${escapeHTML(p.home)}</span>
+            </div>
+          </div>
+          <div>
+            <div class="match-row">
+              <span class="match-label">匹配度 · 第 ${index + 1} 位</span>
+              <span class="match-num">${item.percent}%</span>
+            </div>
+            <div class="bar"><i style="width:${item.percent}%"></i></div>
+          </div>
+          <div class="reason">${escapeHTML(reasonText)}</div>
+          <div class="tags">
+            ${p.traits.map((t) => `<span class="tag">${escapeHTML(t)}</span>`).join("")}
+          </div>
+          <div class="card-link">
+            <span>查看人物详情</span>
+            <span>→</span>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    $$("#result-cards .person-card").forEach((card) => {
+      const go = () => {
+        const id = card.getAttribute("data-id");
+        location.hash = "#detail?id=" + encodeURIComponent(id);
+      };
+      card.addEventListener("click", go);
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          go();
+        }
+      });
+    });
+  }
+
+  /* =========================================================
+     详情页
+     ========================================================= */
+  function renderDetail(person) {
+    let matchInfo = null;
+    if (state.profile) {
+      matchInfo = state.results.find((item) => item.person.id === person.id) || null;
+      if (!matchInfo) {
+        matchInfo = scorePerson(person, state.profile);
+      }
+    }
+
+    const reasons = matchInfo && matchInfo.reasons.length
+      ? matchInfo.reasons
+      : ["你正在浏览一位燕赵历史人物。完成画像匹配后，可查看你与人物之间的关联理由。"];
+
+    const percent = matchInfo ? matchInfo.percent : null;
+
+    $("#detail-content").innerHTML = `
+      <div class="detail-layout">
+        <aside class="profile-side">
+          <div class="big-avatar">${escapeHTML(person.name.slice(0, 1))}</div>
+          <div class="side-info">
+            <div><span>时代</span><b>${escapeHTML(person.era)}</b></div>
+            <div><span>籍贯/活动地</span><b>${escapeHTML(person.origin)}</b></div>
+            <div><span>家乡关联</span><b>${escapeHTML(person.home)}</b></div>
+            <div><span>性格标签</span><b>${escapeHTML(person.traits.join("、"))}</b></div>
+            <div><span>人生阶段</span><b>${escapeHTML(person.age)}</b></div>
+            ${percent !== null ? `<div><span>匹配度</span><b>${percent}%</b></div>` : ""}
+          </div>
+        </aside>
+
+        <div class="detail-main">
+          <h2>${escapeHTML(person.name)}</h2>
+          <div class="sub">${escapeHTML(person.era)} · ${escapeHTML(person.origin)}</div>
+
+          <div class="section">
+            <h3>人物故事</h3>
+            <p>${escapeHTML(person.story)}</p>
+          </div>
+
+          <div class="section">
+            <h3>燕赵文化元素</h3>
+            <div class="tags">
+              ${person.elements.map((el) => `<span class="tag">${escapeHTML(el)}</span>`).join("")}
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>为什么匹配你</h3>
+            <ul class="reason-list">
+              ${reasons.map((r) => `<li>${escapeHTML(r)}</li>`).join("")}
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>AI 人物寄语</h3>
+            <div class="quote">${escapeHTML(person.aiNote)}</div>
+          </div>
+
+          <div class="notice">
+            本人物卡由 AI 辅助完成标签梳理、推荐文案润色与视觉生成；人物形象为艺术化演绎，非历史复原。匹配结果用于文化传播与创意体验，不作为历史评价依据。
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  /* =========================================================
+     工具函数
+     ========================================================= */
+  function escapeHTML(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  /* 如果直接打开没有 hash，默认进入首页 */
+  if (!location.hash) {
+    location.hash = "#home";
+  }
+/* 鼠标跟随光晕 */
+(function initCursorGlow() {
+  const glow = document.getElementById("cursor-glow");
+  if (!glow) return;
+  if (window.matchMedia("(hover: none)").matches) return;
+
+  let raf = null;
+  let x = 0;
+  let y = 0;
+
+  document.addEventListener("mousemove", (event) => {
+    x = event.clientX;
+    y = event.clientY;
+    glow.style.opacity = "1";
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      glow.style.left = x + "px";
+      glow.style.top = y + "px";
+      raf = null;
+    });
+  });
+
+  document.addEventListener("mouseleave", () => {
+    glow.style.opacity = "0";
+  });
+})();
+</script>
+</body>
+</html>
